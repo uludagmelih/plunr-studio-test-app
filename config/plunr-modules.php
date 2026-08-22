@@ -15,17 +15,6 @@ return array (
     'section' => 'Project',
     'pages' => 
     array (
-      'products' => 
-      array (
-        'label' => 'Products',
-        'route' => 'inventory.products.index',
-        'path' => '/inventory/products',
-        'page' => 'Inventory/Products/Index',
-        'icon' => 'FileText',
-        'order' => 0,
-        'quick_access' => true,
-        'hidden' => false,
-      ),
       'warehouses' => 
       array (
         'label' => 'Warehouses',
@@ -33,19 +22,30 @@ return array (
         'path' => '/inventory/warehouses',
         'page' => 'Inventory/Warehouses/Index',
         'icon' => 'FileText',
-        'order' => 1,
+        'order' => 0,
         'quick_access' => false,
         'hidden' => false,
       ),
-      'test' => 
+      'products' => 
       array (
-        'label' => 'New page',
-        'route' => 'app.page',
-        'path' => '/page',
-        'page' => 'Page',
-        'icon' => 'FolderTree',
+        'label' => 'Products',
+        'route' => 'inventory.products.index',
+        'path' => '/inventory/products',
+        'page' => 'Inventory/Products/Index',
+        'icon' => 'FileText',
+        'order' => 1,
+        'quick_access' => true,
+        'hidden' => false,
+      ),
+      'suppliers' => 
+      array (
+        'label' => 'Suppliers',
+        'route' => 'inventory.suppliers.index',
+        'path' => '/inventory/suppliers',
+        'page' => 'Inventory/Suppliers/Index',
+        'icon' => 'Users',
         'order' => 2,
-        'quick_access' => false,
+        'quick_access' => true,
         'hidden' => false,
       ),
     ),
