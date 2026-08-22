@@ -15,25 +15,27 @@ return array (
     'section' => 'Project',
     'pages' => 
     array (
-      'warehouses' => 
-      array (
-        'label' => 'Warehouses',
-        'route' => 'inventory.warehouses.index',
-        'path' => '/inventory/warehouses',
-        'page' => 'Inventory/Warehouses/Index',
-        'icon' => 'FileText',
-        'order' => 0,
-        'quick_access' => false,
-      ),
       'products' => 
       array (
         'label' => 'Products',
         'route' => 'inventory.products.index',
         'path' => '/inventory/products',
         'page' => 'Inventory/Products/Index',
-        'icon' => 'FileText',
+        'icon' => 'Box',
         'order' => 0,
         'quick_access' => true,
+        'hidden' => false,
+      ),
+      'warehouses' => 
+      array (
+        'label' => 'Warehouses',
+        'route' => 'inventory.warehouses.index',
+        'path' => '/inventory/warehouses',
+        'page' => 'Inventory/Warehouses/Index',
+        'icon' => 'Truck',
+        'order' => 1,
+        'quick_access' => true,
+        'hidden' => false,
       ),
     ),
   ),
