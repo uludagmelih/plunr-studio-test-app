@@ -1,5 +1,5 @@
 <?php
 
 return array (
-  'theme' => 'minimal',
+  'theme' => 'classic',
 );
