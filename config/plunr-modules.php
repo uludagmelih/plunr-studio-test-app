@@ -10,7 +10,7 @@ return array (
   'inventory' => 
   array (
     'label' => 'Inventory',
-    'icon' => 'Box',
+    'icon' => 'Package',
     'order' => 0,
     'section' => 'Project',
     'pages' => 
