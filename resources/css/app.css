@@ -1,0 +1,720 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+/*
+ * Token ownership (do not duplicate the full palette in theme CSS):
+ *   tokens.css          → shared light (:root) + dark (.dark) semantic defaults
+ *   themes/*.css        → only theme-specific differences via [data-plunr-theme]
+ */
+@import "../../vendor/plunr/admin-starterkit/resources/css/tokens.css";
+@import "../../vendor/plunr/admin-starterkit/resources/css/themes/classic.css";
+@import "../../vendor/plunr/admin-starterkit/resources/css/themes/minimal.css";
+
+@import "tailwindcss";
+@plugin "tailwindcss-animate";
+
+/*
+ * PLUNR Admin Starter Kit central UI sources.
+ * Tailwind must also scan components living inside the Composer package.
+ */
+@source "../../vendor/plunr/admin-starterkit/resources/js";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+    --font-sans: var(--font-sans);
+
+    --color-background: hsl(var(--background));
+    --color-foreground: hsl(var(--foreground));
+
+    --color-card: hsl(var(--card));
+    --color-card-foreground: hsl(var(--card-foreground));
+
+    --color-popover: hsl(var(--popover));
+    --color-popover-foreground: hsl(var(--popover-foreground));
+
+    --color-primary: hsl(var(--primary));
+    --color-primary-foreground: hsl(var(--primary-foreground));
+    --color-primary-soft: hsl(var(--primary-soft));
+
+    --color-secondary: hsl(var(--secondary));
+    --color-secondary-foreground: hsl(var(--secondary-foreground));
+
+    --color-muted: hsl(var(--muted));
+    --color-muted-foreground: hsl(var(--muted-foreground));
+
+    --color-accent: hsl(var(--accent));
+    --color-accent-foreground: hsl(var(--accent-foreground));
+
+    --color-destructive: hsl(var(--destructive));
+    --color-destructive-foreground: hsl(var(--destructive-foreground));
+
+    --color-border: hsl(var(--border));
+    --color-input: hsl(var(--input));
+    --color-ring: hsl(var(--ring));
+
+    --color-chart-1: hsl(var(--chart-1));
+    --color-chart-2: hsl(var(--chart-2));
+    --color-chart-3: hsl(var(--chart-3));
+    --color-chart-4: hsl(var(--chart-4));
+    --color-chart-5: hsl(var(--chart-5));
+
+    /* bg-sidebar / text-sidebar map to the sidebar surface contract. */
+    --color-sidebar: hsl(var(--sidebar-background));
+    --color-sidebar-background: hsl(var(--sidebar-background));
+    --color-sidebar-foreground: hsl(var(--sidebar-foreground));
+    --color-sidebar-primary: hsl(var(--sidebar-primary));
+    --color-sidebar-primary-foreground: hsl(var(--sidebar-primary-foreground));
+    --color-sidebar-accent: hsl(var(--sidebar-accent));
+    --color-sidebar-accent-foreground: hsl(var(--sidebar-accent-foreground));
+    --color-sidebar-border: hsl(var(--sidebar-border));
+    --color-sidebar-ring: hsl(var(--sidebar-ring));
+    --color-sidebar-icon: hsl(var(--sidebar-icon));
+    --color-sidebar-input: hsl(var(--sidebar-input));
+
+    --radius-lg: var(--radius);
+    --radius-md: calc(var(--radius) - 2px);
+    --radius-sm: calc(var(--radius) - 4px);
+}
+
+@layer base {
+  html {
+    font-size: var(--workspace-root-font-size, 15px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-gutter: stable;
+    height: 100%;
+  }
+
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  body {
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-gutter: stable;
+  }
+
+  /* Keep browser/password-manager autofill aligned with the active login theme. */
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus {
+    -webkit-text-fill-color: hsl(var(--foreground));
+    caret-color: hsl(var(--foreground));
+    box-shadow: 0 0 0 1000px hsl(var(--background)) inset;
+    transition: background-color 9999s ease-out 0s;
+  }
+
+  /* Compact table density — tighter cell padding across common table patterns */
+  html[data-table-density='compact'] table tr,
+  html[data-table-density='compact'] table :is(th, td) {
+    height: auto !important;
+  }
+
+  html[data-table-density='compact'] table :is(th, td),
+  html[data-table-density='compact'] [role='table'] :is([role='columnheader'], [role='cell']),
+  html[data-table-density='compact'] .cl-table-compact-target {
+    padding-top: 0.25rem !important;
+    padding-bottom: 0.25rem !important;
+  }
+
+  html[data-table-density='compact'] table :is(th, td) {
+    font-size: 0.8125rem;
+    line-height: 1rem;
+  }
+
+  :where(
+    button,
+    [type='button'],
+    [type='submit'],
+    [type='reset'],
+    a[href],
+    [role='button'],
+    [role='menuitem'],
+    [role='menuitemcheckbox'],
+    [role='menuitemradio']
+  ) {
+    cursor: pointer;
+  }
+
+  :where(
+    button:disabled,
+    [type='button']:disabled,
+    [type='submit']:disabled,
+    [type='reset']:disabled,
+    [aria-disabled='true']
+  ) {
+    cursor: not-allowed;
+  }
+
+  /* WebKit scrollbar corner alanı (dikey/horizontal birleşim) boşluk yaratmasın. */
+  ::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+
+  :root {
+    --cl-scrollbar-thumb: rgb(148 163 184 / 0.72);
+    --cl-scrollbar-thumb-hover: rgb(100 116 139 / 0.88);
+    --cl-scrollbar-track: transparent;
+  }
+
+  .dark {
+    --cl-scrollbar-thumb: rgb(71 85 105 / 0.9);
+    --cl-scrollbar-thumb-hover: rgb(100 116 139 / 0.95);
+    --cl-scrollbar-track: transparent;
+  }
+
+  /* Global, slimmer scrollbar styling across app surfaces. */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--cl-scrollbar-thumb) var(--cl-scrollbar-track);
+  }
+
+  *::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: var(--cl-scrollbar-track);
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: var(--cl-scrollbar-thumb);
+    border-radius: 9999px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+    min-height: 36px;
+  }
+
+  *::-webkit-scrollbar-thumb:hover {
+    background-color: var(--cl-scrollbar-thumb-hover);
+  }
+
+  /* Unified fallback for legacy native form controls not yet migrated to shared UI components. */
+  :where(input, select, textarea):not([type='checkbox']):not([type='radio']):not([type='range']):not([type='color']):not([type='file']) {
+    @apply border-input bg-background text-foreground;
+  }
+
+  input.dual-secondary-search {
+    background-color: hsl(var(--sidebar-input, var(--sidebar-accent))) !important;
+    border-color: hsl(var(--sidebar-border)) !important;
+    color: hsl(var(--sidebar-foreground)) !important;
+    box-shadow: none !important;
+  }
+
+  input.dual-secondary-search::placeholder {
+    color: hsl(var(--sidebar-submenu-foreground)) !important;
+    opacity: 1;
+  }
+
+  input.dual-secondary-search:hover {
+    background-color: hsl(var(--sidebar-accent)) !important;
+    border-color: hsl(var(--sidebar-border)) !important;
+  }
+
+  input.dual-secondary-search:focus,
+  input.dual-secondary-search:focus-visible {
+    background-color: hsl(var(--sidebar-input, var(--sidebar-accent))) !important;
+    border-color: hsl(var(--sidebar-ring)) !important;
+    box-shadow: 0 0 0 2px hsl(var(--sidebar-ring) / 0.25) !important;
+  }
+
+  .dark input.dual-secondary-search,
+  input.dual-secondary-search.dual-secondary-search--nav-dark,
+  .sidebar-surface-dark input.dual-secondary-search {
+    background-color: hsl(var(--sidebar-input, var(--sidebar-accent))) !important;
+    border-color: hsl(var(--sidebar-border)) !important;
+    color: hsl(var(--sidebar-foreground)) !important;
+  }
+
+  .dark input.dual-secondary-search:hover,
+  input.dual-secondary-search.dual-secondary-search--nav-dark:hover,
+  .sidebar-surface-dark input.dual-secondary-search:hover {
+    background-color: hsl(var(--sidebar-accent)) !important;
+    border-color: hsl(var(--sidebar-border)) !important;
+  }
+
+  .dark input.dual-secondary-search:focus,
+  .dark input.dual-secondary-search:focus-visible,
+  input.dual-secondary-search.dual-secondary-search--nav-dark:focus,
+  input.dual-secondary-search.dual-secondary-search--nav-dark:focus-visible,
+  .sidebar-surface-dark input.dual-secondary-search:focus,
+  .sidebar-surface-dark input.dual-secondary-search:focus-visible {
+    background-color: hsl(var(--sidebar-input, var(--sidebar-accent))) !important;
+    border-color: hsl(var(--sidebar-ring)) !important;
+    box-shadow: 0 0 0 1px hsl(var(--sidebar-ring) / 0.4) !important;
+  }
+
+  :where(input, select, textarea):not([type='checkbox']):not([type='radio']):not([type='range']):not([type='color']):not([type='file']):hover {
+    @apply border-slate-400/60;
+  }
+
+  :where(input, select, textarea):not([type='checkbox']):not([type='radio']):not([type='range']):not([type='color']):not([type='file']):focus,
+  :where(input, select, textarea):not([type='checkbox']):not([type='radio']):not([type='range']):not([type='color']):not([type='file']):focus-visible {
+    @apply outline-none;
+    border-color: hsl(var(--primary)) !important;
+    box-shadow: 0 0 0 1px hsl(var(--primary) / 0.45) !important;
+  }
+
+  .dark :where(input, select, textarea):not([type='checkbox']):not([type='radio']):not([type='range']):not([type='color']):not([type='file']):hover {
+    @apply border-slate-600;
+  }
+
+  /* Fallback dark-mode mapping for legacy pages still using light utility classes. */
+  .dark .bg-white {
+    @apply bg-slate-900;
+  }
+
+  .dark .bg-gray-100 {
+    @apply bg-slate-950;
+  }
+
+  .dark .bg-gray-50,
+  .dark .bg-slate-50,
+  .dark .bg-slate-100 {
+    @apply bg-slate-800;
+  }
+
+  .dark .border-gray-200,
+  .dark .border-slate-200 {
+    @apply border-slate-800;
+  }
+
+  .dark .border-gray-300,
+  .dark .border-slate-300 {
+    @apply border-slate-700;
+  }
+
+  .dark .text-gray-800,
+  .dark .text-slate-900 {
+    @apply text-slate-100;
+  }
+
+  .dark .text-gray-700,
+  .dark .text-slate-700 {
+    @apply text-slate-200;
+  }
+
+  .dark .text-gray-600,
+  .dark .text-slate-600 {
+    @apply text-slate-300;
+  }
+
+  .dark .text-gray-500,
+  .dark .text-slate-500 {
+    @apply text-slate-400;
+  }
+}
+
+@layer utilities {
+  .search-input-with-icon::before {
+    content: "";
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    z-index: 10;
+    width: 1rem;
+    height: 1rem;
+    transform: translateY(-50%);
+    pointer-events: none;
+    opacity: 0.85;
+    background-repeat: no-repeat;
+    background-size: 1rem 1rem;
+    background-position: center;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.3-4.3'/%3E%3C/svg%3E");
+  }
+
+  .dark .search-input-with-icon::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.3-4.3'/%3E%3C/svg%3E");
+  }
+
+  .scrollbar-shadcn {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(148 163 184 / 0.8) transparent;
+  }
+
+  .scrollbar-shadcn::-webkit-scrollbar {
+    height: 10px;
+    width: 10px;
+  }
+
+  .scrollbar-shadcn::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-shadcn::-webkit-scrollbar-thumb {
+    background-color: rgb(148 163 184 / 0.75);
+    border-radius: 9999px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+
+  .scrollbar-shadcn::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(100 116 139 / 0.9);
+  }
+
+  .dark .scrollbar-shadcn {
+    scrollbar-color: rgb(71 85 105 / 0.9) transparent;
+  }
+
+  .dark .scrollbar-shadcn::-webkit-scrollbar-thumb {
+    background-color: rgb(71 85 105 / 0.9);
+  }
+
+  .dark .scrollbar-shadcn::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(100 116 139 / 0.95);
+  }
+
+  .sidebar-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(148 163 184 / 0.8) transparent;
+  }
+
+  .sidebar-scrollbar::-webkit-scrollbar {
+    width: 7px;
+  }
+
+  .sidebar-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 9999px;
+  }
+
+  .sidebar-scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgb(148 163 184 / 0.75);
+    border-radius: 9999px;
+    border: 1px solid transparent;
+    background-clip: content-box;
+  }
+
+  .sidebar-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(100 116 139 / 0.9);
+  }
+
+  .dark .sidebar-scrollbar {
+    scrollbar-color: rgb(71 85 105 / 0.9) transparent;
+  }
+
+  .dark .sidebar-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .dark .sidebar-scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgb(71 85 105 / 0.9);
+  }
+
+  .dark .sidebar-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(100 116 139 / 0.95);
+  }
+
+  /* Token values for .sidebar-surface-dark live in tokens.css. */
+  .sidebar-surface-dark .sidebar-scrollbar {
+    scrollbar-color: rgb(71 85 105 / 0.9) transparent;
+  }
+
+  .sidebar-surface-dark .sidebar-scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgb(71 85 105 / 0.9);
+  }
+
+  .sidebar-surface-dark .sidebar-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(100 116 139 / 0.95);
+  }
+
+  [data-collapsible="icon"] .sidebar-surface-dark [data-sidebar="menu-button"] > svg,
+  .dark [data-collapsible="icon"] [data-sidebar="menu-button"] > svg {
+    color: rgb(248 250 252 / 0.68);
+  }
+
+  [data-collapsible="icon"] .sidebar-surface-dark [data-sidebar="menu-button"]:hover > svg,
+  [data-collapsible="icon"] .sidebar-surface-dark [data-sidebar="menu-button"][data-active="true"] > svg,
+  .dark [data-collapsible="icon"] [data-sidebar="menu-button"]:hover > svg,
+  .dark [data-collapsible="icon"] [data-sidebar="menu-button"][data-active="true"] > svg {
+    color: rgb(255 255 255 / 0.9);
+  }
+
+  .ticket-calendar-wrapper {
+    --calendar-grid-border: rgb(226 232 240);
+    --calendar-text: rgb(30 41 59);
+    --calendar-muted-text: rgb(100 116 139);
+    --calendar-header-bg: rgb(248 250 252);
+    --calendar-weekend-bg: rgb(248 250 252);
+    --calendar-weekend-header-bg: rgb(241 245 249);
+    --calendar-other-month-bg: rgb(248 250 252 / 0.65);
+    --calendar-today-bg: rgb(64 194 160 / 0.12);
+    --calendar-event-hover-bg: rgb(64 194 160 / 0.2);
+    --calendar-now-line: rgb(64 194 160 / 0.62);
+    --calendar-event-bg: rgb(226 232 240);
+    --calendar-event-border: rgb(148 163 184);
+    --calendar-event-text: rgb(15 23 42);
+  }
+
+  .dark .ticket-calendar-wrapper {
+    --calendar-grid-border: rgb(51 65 85);
+    --calendar-text: rgb(226 232 240);
+    --calendar-muted-text: rgb(203 213 225);
+    --calendar-header-bg: rgb(15 23 42);
+    --calendar-weekend-bg: rgb(15 23 42 / 0.72);
+    --calendar-weekend-header-bg: rgb(2 6 23 / 0.78);
+    --calendar-other-month-bg: rgb(15 23 42 / 0.45);
+    --calendar-today-bg: rgb(74 222 190 / 0.2);
+    --calendar-event-hover-bg: rgb(74 222 190 / 0.3);
+    --calendar-now-line: rgb(74 222 190 / 0.75);
+    --calendar-event-bg: rgb(51 65 85);
+    --calendar-event-border: rgb(100 116 139);
+    --calendar-event-text: rgb(241 245 249);
+  }
+
+  .ticket-calendar-wrapper .fc {
+    --fc-border-color: var(--calendar-grid-border);
+    --fc-button-text-color: var(--calendar-text);
+    --fc-event-bg-color: var(--calendar-event-bg);
+    --fc-event-border-color: var(--calendar-event-border);
+    --fc-event-text-color: var(--calendar-event-text);
+    --fc-daygrid-event-dot-width: 7px;
+    color: var(--calendar-text);
+  }
+
+  .ticket-calendar-wrapper .fc-theme-standard td,
+  .ticket-calendar-wrapper .fc-theme-standard th,
+  .ticket-calendar-wrapper .fc-scrollgrid,
+  .ticket-calendar-wrapper .fc-theme-standard .fc-scrollgrid {
+    border-color: var(--fc-border-color);
+  }
+
+  .ticket-calendar-wrapper .fc-col-header-cell-cushion,
+  .ticket-calendar-wrapper .fc-daygrid-day-number {
+    color: var(--calendar-muted-text);
+  }
+
+  .ticket-calendar-wrapper .fc-col-header-cell {
+    background-color: var(--calendar-header-bg);
+  }
+
+  .ticket-calendar-wrapper .fc-day-sun,
+  .ticket-calendar-wrapper .fc-day-sat {
+    background-color: var(--calendar-weekend-bg);
+  }
+
+  .ticket-calendar-wrapper .fc-col-header-cell.fc-day-sun,
+  .ticket-calendar-wrapper .fc-col-header-cell.fc-day-sat {
+    background-color: var(--calendar-weekend-header-bg);
+  }
+
+  .ticket-calendar-wrapper .fc-day-other {
+    background-color: var(--calendar-other-month-bg);
+  }
+
+  .ticket-calendar-wrapper .fc-day-today {
+    background-color: var(--calendar-today-bg) !important;
+  }
+
+  .ticket-calendar-wrapper .fc .ticket-calendar-event {
+    border-radius: 0.375rem;
+    padding: 2px 4px;
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.08);
+    background-color: var(--calendar-event-bg) !important;
+    border-color: var(--calendar-event-border) !important;
+    color: var(--calendar-event-text) !important;
+  }
+
+  .ticket-calendar-wrapper .fc .ticket-calendar-event:hover {
+    background-color: var(--calendar-event-hover-bg) !important;
+  }
+
+  .ticket-calendar-wrapper .fc .ticket-calendar-event .fc-event-time,
+  .ticket-calendar-wrapper .fc .ticket-calendar-event .fc-event-title,
+  .ticket-calendar-wrapper .fc .ticket-calendar-event .fc-event-main,
+  .ticket-calendar-wrapper .fc .ticket-calendar-event .fc-event-main * {
+    color: var(--calendar-event-text) !important;
+  }
+
+  .ticket-calendar-wrapper .fc .ticket-calendar-event .fc-event-main {
+    background-color: transparent !important;
+  }
+
+  .ticket-calendar-wrapper .fc .fc-timegrid-now-indicator-line {
+    border-color: var(--calendar-now-line);
+  }
+
+  .ticket-calendar-wrapper .fc .fc-daygrid-day-number:hover,
+  .ticket-calendar-wrapper .fc .fc-col-header-cell-cushion:hover {
+    color: var(--calendar-text);
+  }
+
+  .ck-editor-field {
+    display: flex;
+    min-height: 0;
+    flex-direction: column;
+  }
+
+  .ck-editor-field .ck-editor {
+    display: flex;
+    min-height: 0;
+    flex: 1 1 auto;
+    flex-direction: column;
+  }
+
+  .ck-editor-field .ck-editor__main {
+    display: flex;
+    min-height: 0;
+    flex: 1 1 auto;
+    flex-direction: column;
+  }
+
+  .ck-editor-field .ck-editor__editable_inline {
+    min-height: 220px !important;
+    height: 100% !important;
+    max-height: none !important;
+    overflow-y: auto !important;
+  }
+
+  /* Tailwind preflight resets heading styles; restore readable hierarchy inside CKEditor. */
+  .ck-editor-field .ck-content h1 {
+    font-size: 2rem;
+    line-height: 1.2;
+    font-weight: 700;
+    margin: 0.5rem 0;
+  }
+
+  .ck-editor-field .ck-content h2 {
+    font-size: 1.5rem;
+    line-height: 1.25;
+    font-weight: 700;
+    margin: 0.5rem 0;
+  }
+
+  .ck-editor-field .ck-content h3 {
+    font-size: 1.25rem;
+    line-height: 1.3;
+    font-weight: 600;
+    margin: 0.5rem 0;
+  }
+
+  .ck-editor-field .ck-content h4 {
+    font-size: 1.125rem;
+    line-height: 1.35;
+    font-weight: 600;
+    margin: 0.4rem 0;
+  }
+
+  .ck-editor-field .ck-content h5 {
+    font-size: 1rem;
+    line-height: 1.4;
+    font-weight: 600;
+    margin: 0.35rem 0;
+  }
+
+  .ck-editor-field .ck-content h6 {
+    font-size: 0.875rem;
+    line-height: 1.45;
+    font-weight: 600;
+    margin: 0.3rem 0;
+  }
+
+  .ck-editor-field .ck-content p {
+    margin: 0.4rem 0;
+  }
+
+  .kb-article-editor {
+    min-height: 0;
+  }
+
+  .kb-article-editor .ck-editor__editable_inline {
+    min-height: 240px !important;
+  }
+
+  .ck.ck-editor {
+    --ck-color-focus-border: rgb(64 194 160);
+    --ck-color-focus-outer-shadow: 0 0 0 3px rgb(64 194 160 / 0.22);
+    --ck-color-base-active: hsl(var(--primary));
+    --ck-color-base-active-focus: hsl(var(--primary));
+    --ck-color-button-on-color: hsl(var(--primary));
+    --ck-color-button-on-background: hsl(var(--primary) / 0.12);
+    --ck-color-button-on-hover-background: hsl(var(--primary) / 0.18);
+    --ck-color-button-on-active-background: hsl(var(--primary) / 0.22);
+    --ck-color-link-default: hsl(var(--primary));
+    --ck-color-widget-hover-border: hsl(var(--primary));
+    --ck-color-widget-type-around-button-active: hsl(var(--primary));
+  }
+
+  .ck.ck-editor .ck-editor__editable_inline > .ck-placeholder::before {
+    color: rgb(100 116 139) !important;
+    opacity: 1 !important;
+  }
+
+  .ck.ck-editor .ck-editor__editable_inline.ck-focused {
+    border-color: rgb(64 194 160) !important;
+    box-shadow: inset 0 0 0 1px rgb(64 194 160 / 0.45) !important;
+  }
+
+  .dark .ck.ck-editor {
+    --ck-color-base-background: rgb(15 23 42);
+    --ck-color-toolbar-background: rgb(15 23 42);
+    --ck-color-toolbar-border: rgb(51 65 85);
+    --ck-color-base-border: rgb(51 65 85);
+    --ck-color-panel-background: rgb(15 23 42);
+    --ck-color-input-background: rgb(30 41 59);
+    --ck-color-input-border: rgb(71 85 105);
+    --ck-color-text: rgb(226 232 240);
+    --ck-color-focus-border: rgb(74 222 190);
+    --ck-color-focus-outer-shadow: 0 0 0 3px rgb(74 222 190 / 0.28);
+    --ck-color-button-default-background: transparent;
+    --ck-color-button-default-hover-background: rgb(30 41 59);
+    --ck-color-button-default-active-background: rgb(30 41 59);
+    --ck-color-button-on-background: hsl(var(--primary) / 0.22);
+    --ck-color-button-on-color: rgb(74 222 190);
+    --ck-color-button-on-hover-background: hsl(var(--primary) / 0.3);
+    --ck-color-button-on-active-background: hsl(var(--primary) / 0.36);
+    --ck-color-link-default: rgb(74 222 190);
+    --ck-color-dropdown-panel-background: rgb(15 23 42);
+  }
+
+  .dark .ck.ck-editor .ck-editor__editable_inline > .ck-placeholder::before {
+    color: rgb(148 163 184) !important;
+    opacity: 1 !important;
+  }
+
+  .dark .ck.ck-editor .ck-editor__top .ck-sticky-panel .ck-toolbar,
+  .dark .ck.ck-editor .ck-editor__editable_inline {
+    background: rgb(15 23 42) !important;
+    color: rgb(226 232 240) !important;
+    border-color: rgb(51 65 85) !important;
+  }
+
+  .dark .ck.ck-editor .ck-dropdown__panel,
+  .dark .ck.ck-editor .ck-list,
+  .dark .ck.ck-editor .ck-balloon-panel {
+    background: rgb(15 23 42) !important;
+    border-color: rgb(51 65 85) !important;
+    color: rgb(226 232 240) !important;
+  }
+
+  .dark .ck.ck-editor .ck-dropdown__panel .ck-list,
+  .dark .ck.ck-editor .ck-dropdown__panel .ck-list__item,
+  .dark .ck.ck-editor .ck-dropdown__panel .ck-button {
+    background: rgb(15 23 42) !important;
+    color: rgb(226 232 240) !important;
+    border-color: transparent !important;
+  }
+
+  .dark .ck.ck-editor .ck-dropdown__panel .ck-button:hover,
+  .dark .ck.ck-editor .ck-dropdown__panel .ck-button.ck-on {
+    background: rgb(30 41 59) !important;
+    color: rgb(241 245 249) !important;
+  }
+
+  .dark .ck.ck-editor .ck-powered-by {
+    background: rgb(15 23 42) !important;
+    color: rgb(148 163 184) !important;
+    border-color: rgb(51 65 85) !important;
+  }
+}
+
+@keyframes typingBounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
+  30%           { transform: translateY(-4px); opacity: 1; }
+}
