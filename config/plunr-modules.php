@@ -10,7 +10,7 @@ return array (
   'inventory' => 
   array (
     'label' => 'Inventory',
-    'icon' => 'Package',
+    'icon' => 'Box',
     'order' => 0,
     'section' => 'Project',
     'pages' => 
@@ -35,6 +35,17 @@ return array (
         'icon' => 'FileText',
         'order' => 1,
         'quick_access' => true,
+        'hidden' => false,
+      ),
+      'suppliers' => 
+      array (
+        'label' => 'Suppliers',
+        'route' => 'inventory.suppliers.index',
+        'path' => '/inventory/suppliers',
+        'page' => 'Inventory/Suppliers/Index',
+        'icon' => 'Users',
+        'order' => 2,
+        'quick_access' => false,
         'hidden' => false,
       ),
     ),
