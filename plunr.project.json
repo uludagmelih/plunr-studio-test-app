@@ -1,0 +1,8 @@
+{
+    "name": "plunr-studio-test-app",
+    "description": "The skeleton application for the Laravel framework.",
+    "plunr": [],
+    "branding": {
+        "sidebar_logo_dark_url": "/branding/sidebar-logo-dark.png"
+    }
+}
